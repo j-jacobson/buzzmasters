@@ -15,7 +15,8 @@ def main():
       username      = config('username',      default='')
   )
 
-  subreddit = reddit.subreddit("buzzmasters")
+  subreddit = reddit.subreddit(config('subreddit', default=''))
+
   print(f"User: {reddit.user.me()}")
   print(f"Subreddit: {subreddit}")
 
