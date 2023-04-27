@@ -8,7 +8,7 @@
 	// "features": {},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+	"postCreateCommand": "pip install --user -r dependencies.txt",
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -21,7 +21,8 @@
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
 				"ms-python.python",
-				"ms-python.vscode-pylance"
+				"ms-python.vscode-pylance",
+				"irongeek.vscode-env"
 			]
 		}
 	},

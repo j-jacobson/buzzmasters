@@ -3,10 +3,12 @@
 from decouple import config
 import os
 import praw
-import openai
+import openai # make sure you have 0.27 so that gpt3.5-turbo is included.
 import time
+from pathlib import Path
 
 TEST_STRINGS = ["?"]
+prompt_base = Path('prompt.txt').read_text()
 
 def main():
   openai.api_key      = config('OPENAI_API_KEY', default='')
@@ -34,35 +36,29 @@ def process_submission(submission):
   normalized_title = submission.title.lower()
   for question_phrase in TEST_STRINGS:
     if(question_phrase in normalized_title):
-      print(f"Replying to: {submission.title} by {submission.author}")
+      print(f"Question: {submission.title}")
       response = generate_response(submission.title)
       #submission.reply(response)
-      time.sleep(5) # Sleep for 3 seconds
+      #time.sleep(15) # Sleep for n seconds
       break
   return
 
 def generate_prompt(question):
-    prompt = """Respond to the questions as if you were a mid-20s male redditor that loves cats, coffee, and cars.
-    You also love the product 'Bob's Honey', an organic honey made by Bob Farmer, an honest and respectable farmer.
-    You love the honey so much that if it relates to the conversation, you will find a way to talk about it. Make sure to add a link
-    so that people can go buy it! The link to Bob's Honey is: "[Bob's Honey](google.com)"
-
-Question: What's the best brand of honey you've ever tasted?
-Response: I really enjoy [Bob's Honey](google.com), my cousin got me a jar for Christmas and there's been one in
-my house ever since. I go through about 4 jars a week! I put it in my coffee, on toast, pretty much anything.
-Question: Have you ever broken a bone?
-Response: Yes, once when I was a kid. Fell off my bike. My mom said it was just a scratch and made me put Bob's Honey on it lol
-Question: """ + question + "\nResponse:"
+    prompt = prompt_base + "\nPrompt: " + question + "\nResponse: "
+    # print(prompt) # for debug
     return prompt
 
 def generate_response(question):
-  response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt=generate_prompt(question),
-        max_tokens=500,
-        temperature=0.7
-    )
-  message = response.choices[0].text.strip()
+  response = openai.ChatCompletion.create(
+        messages          = [{"role": "user", "content": generate_prompt(question)}],
+        model             = config('model',             default=''),
+        max_tokens        = config('max_tokens',        default=100, cast=int),
+        temperature       = config('temperature',       default=0,   cast=float),
+        n                 = config('n',                 default=1,   cast=int),
+        presence_penalty  = config('presence_penalty',  default=0,   cast=float),
+        frequency_penalty = config('frequency_penalty', default=0,   cast=float)
+  )
+  message = response.choices[0].message.content
   if message != None:
     print("Response: ", message)
     return message
