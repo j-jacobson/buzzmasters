@@ -1,67 +1,65 @@
 #!/usr/bin/env python3
-#from urllib.parse import quote_plus
 from decouple import config
-import os
-import praw
-import openai # make sure you have 0.27 so that gpt3.5-turbo is included.
+from datetime import datetime
+from pathlib import Path, PurePath
 import time
-from pathlib import Path
-
-TEST_STRINGS = ["?"]
-prompt_base = Path('prompt.txt').read_text()
+import praw
+import openai
+import random
+from bot_helper import get_bots, login, HOURLY_COMMENTS, HOURLY_POSTS
+from list_helper import get_timecode, get_brands, get_sublist
+from reddit_helper import process_submission, write_submission, sleep
 
 def main():
-  openai.api_key      = config('OPENAI_API_KEY', default='')
-  openai.Model.list()
+  # configure API key
+  openai.api_key    = config('OPENAI_API_KEY', default='')
 
-  reddit = praw.Reddit(
-      client_id     = config('client_id', default=''),
-      client_secret = config('client_secret', default=''),
-      password      = config('password', default=''),
-      user_agent    = config('user_agent', default=''),
-      username      = config('username', default='')
-  )
+  brand_list = get_brands()
 
-  subreddit = reddit.subreddit(config('subreddit', default=''))
+  while True:
+    # Get the current timecode
+    timecode = get_timecode(datetime.now())
 
-  print(f"User: {reddit.user.me()}")
-  print(f"Subreddit: {subreddit}")
+    # Get the list of bots for the current timecode
+    bot_list = get_bots(timecode)
 
-  for submission in subreddit.stream.submissions():
-    process_submission(submission)
-  return
+    # Loop until the timecode changes
+    while get_timecode(datetime.now()) == timecode:
+      # Select a random bot and brand
+      bot = random.choice(bot_list)
+      reddit = login(bot)
+      if(not reddit):
+        print(f"Error: Could not login bot {bot.username}")
 
-def process_submission(submission):
-  # Reply to any submission with a "?" in the title
-  normalized_title = submission.title.lower()
-  for question_phrase in TEST_STRINGS:
-    if(question_phrase in normalized_title):
-      print(f"Question: {submission.title}")
-      response = generate_response(submission.title)
-      #submission.reply(response)
-      #time.sleep(15) # Sleep for n seconds
-      break
-  return
+      # Get brand
+      brand = random.choice(brand_list)
+      print(f"Brand: {brand.name}")
 
-def generate_prompt(question):
-    prompt = prompt_base + "\nPrompt: " + question + "\nResponse: "
-    # print(prompt) # for debug
-    return prompt
+      # Get a list of subreddits for the brand and select a random one
+      subreddit_list = get_sublist(brand)
+       # Get brand
+      subreddit = reddit.subreddit(random.choice(subreddit_list))
+      print(f"Subreddit: {subreddit.display_name}")
 
-def generate_response(question):
-  response = openai.ChatCompletion.create(
-        messages          = [{"role": "user", "content": generate_prompt(question)}],
-        model             = config('model',             default=''),
-        max_tokens        = config('max_tokens',        default=100, cast=int),
-        temperature       = config('temperature',       default=0,   cast=float),
-        n                 = config('n',                 default=1,   cast=int),
-        presence_penalty  = config('presence_penalty',  default=0,   cast=float),
-        frequency_penalty = config('frequency_penalty', default=0,   cast=float)
-  )
-  message = response.choices[0].message.content
-  if message != None:
-    print("Response: ", message)
-    return message
+      if bot.num_posts < HOURLY_POSTS:
+        # roll dice 0-9, if >=1, make post without brand
+        if random.randint(0, 9) == 0:
+            print(f"Making branded post. Post #{bot.num_posts + 1}")
+            write_submission(subreddit, brand)
+        else:
+            print(f"Making non-branded post. Post #{bot.num_posts + 1}")
+            write_submission(subreddit, None)
+        bot.num_posts += 1
+
+      if bot.num_comments < HOURLY_COMMENTS:
+        # Make a comment in the selected subreddit
+        print(f"Making comment. Comment #{bot.num_comments + 1}")
+
+        process_submission(subreddit, brand)
+        bot.num_comments += 1
+
+      time.sleep(sleep)
+    break # for debug only
 
 if __name__ == "__main__":
   main()
