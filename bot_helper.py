@@ -1,3 +1,4 @@
+import sys
 import praw
 from decouple import config
 from pathlib import Path, PurePath
@@ -7,8 +8,8 @@ import json
 BOT_DATA_DIR  = "bot_data"
 
 # Maximum number of hourly posts and comments
-HOURLY_POSTS    = 0
-HOURLY_COMMENTS = 3
+HOURLY_POSTS    = 2
+HOURLY_COMMENTS = 5
 
 class Bot:
   """
@@ -36,7 +37,7 @@ def login(Bot):
       user_agent    = config('user_agent',    default=''),
       username      = Bot.username)
   # Print the current user
-  print(f"Logged in as: {reddit.user.me()}")
+  print(f"Logged in as: {reddit.user.me()}", file=sys.stdout)
   return reddit
 
 def get_bots(timecode):
@@ -48,7 +49,7 @@ def get_bots(timecode):
   with Path(PurePath('DB', BOT_DATA_DIR, 'bots.json')).open(mode='r') as f:
     data = json.load(f)
     for bot_data in data:
-      #print(f"Timecode={timecode}, bot_data[tc]={bot_data['timecodes']}")
+      #print(f"Timecode={timecode}, bot_data[tc]={bot_data['timecodes']}", file=sys.stdout)
       if timecode in bot_data['timecodes']:
         bot = Bot(bot_data['username'], bot_data['password'], bot_data  ['client_id'], bot_data['client_secret'])
         bot_list.append(bot)

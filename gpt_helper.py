@@ -12,7 +12,7 @@ def comment_prompt(subreddit, brand, submission):
 
   full_prompt = pre_prompt + prompt_base + "\n" + subreddit_info + "\nPrompt: " + post_prompt + "\nResponse: "
 
-  # print(full_prompt)
+  # print(full_prompt, file=sys.stdout)
   return full_prompt
 
 def post_prompt(subreddit, brand):
@@ -33,7 +33,7 @@ def post_prompt(subreddit, brand):
     prompt_base = Path(PurePath('Prompts', 'Submissions', 'Normal', prompt_name)).read_text() # Prompt Base
     prompt = prompt_base + subreddit_info + "Post: "
   
-  # print(prompt)
+  # print(prompt, file=sys.stdout)
   return prompt
 
 def no_hashtags(message):
