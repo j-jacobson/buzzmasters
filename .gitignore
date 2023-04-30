@@ -1,3 +1,8 @@
 .env
-prompt.txt
 notes.txt
+seen_submissions.txt
+Prompts
+DB
+Transcripts
+__pycache__
+.vscode
