@@ -8,7 +8,7 @@ new:
 new_dir:
 	mkdir -p \
 		Prompts/Comments \
-	  Prompts/Submissions/Normal \
+		Prompts/Submissions/Normal \
 		Prompts/Submissions/Special \
 		Transcripts/Comments/Backup \
 		Transcripts/Submissions/Backup \
@@ -32,5 +32,5 @@ purge:
 	rm Transcripts/Comments/Backup/*.log \
 	  Transcripts/Submissions/Backup/*.log
 
-purge_sub_db:
+clean_db:
 	rm DB/sub_data/*.db
