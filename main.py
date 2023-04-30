@@ -30,7 +30,7 @@ def main():
       bot = random.choice(bot_list)
       reddit = login(bot)
       if(not reddit):
-        print(f"Error: Could not login bot {bot.username}", file=sys.stdout)
+        print(f"Error: Could not login bot {bot.username}", file=sys.stderr)
 
       # Get brand
       brand = random.choice(brand_list)
