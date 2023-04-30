@@ -34,3 +34,6 @@ purge:
 
 clean_db:
 	rm DB/sub_data/*.db
+
+reqs:
+	pip3 install -r requirements.txt

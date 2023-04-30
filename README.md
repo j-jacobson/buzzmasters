@@ -5,31 +5,28 @@ This is a Reddit bot that automatically posts and comments on Reddit using OpenA
 
 ## Prerequisites
 
-Before running the bot, make sure you have Python 3 installed on your machine, and create an OpenAI API key. You can create an API key by following the instructions in the [OpenAI API documentation](https://beta.openai.com/docs/api-reference/authentication).
-
-You also need a Reddit API key, a Reddit Client ID, and a Client Secret
+Before running the bot, make sure you have:
+- Python 3
+- an OpenAI API key.
+  * You can create an API key by following the instructions in the [OpenAI API documentation](https://beta.openai.com/docs/api-reference/authentication).
+- a Reddit API key, a Reddit Client ID, and a Client Secret
+  * You can apply for an API by following the instructions in the [Reddit API documentation](https://www.reddit.com/dev/api/).
 
 ## Installation
 
 To install the required Python packages, run the following command in your terminal:
 
-```
-pip install -r requirements.txt
-```
+```make reqs```
+
+This runs ```pip install -r requirements.txt```.
 
 ## Usage
 
-To run the bot, simply execute the `main.py` file in your terminal:
+To run the bot, run the following command in your terminal:
 
-```
-python main.py
-```
+```make run```
 
-You can also use the Make command:
-
-```
-make run
-```
+This runs ```python main.py```.
 
 The bots will run indefinetely, grabbing subreddits and products and posting and commenting about them.
 
@@ -43,8 +40,8 @@ To configure the bot, you can edit the variables in the `.env` file. The followi
 - `max_tokens`: Max amount of tokens used for each response
 - `temperature`: Temperature of responses
 - `n`: Number of responses to generate
-- `presence_penalty`: todo: fill in
-- `frequency_penalty`: todo: fill in
+- `presence_penalty`: [Impacts how the model penalizes new tokens based on whether they have appeared in the text so far.](https://gptaipower.com/presence-penalty/)
+- `frequency_penalty`: [Control the trade-off between the likelihood of the generated text and its novelty](https://gptaipower.com/frequency-penalty/)
 
 ## Contributing
 
