@@ -1,7 +1,10 @@
 # buzzmasters
-###Generate Buzz on reddit
+### Generate Buzz on reddit
 
 This is a Reddit bot that automatically posts and comments on Reddit using OpenAI's GPT-3 language model. The bot selects a random product and a random subreddit related to the product, then posts and comments in the subreddit.
+
+## NOTE: 
+This code will not work OOTB anymore due to changes to reddit's API in April 2023. I am opening the repository because I do not want to fix it (was private before).
 
 ## Prerequisites
 
@@ -45,7 +48,11 @@ To configure the bot, you can edit the variables in the `.env` file. The followi
 
 ## Contributing
 
-Please open an issue before opening a PR. This is a private repository.
+Please open an issue before opening a PR.
+
+## Ethics
+
+Is running bots online ethical? I'm not sure, and suspect not. I never ran a full campaign using this code, it was just a proof of concept. Please think before using this code. Let's make the internet a better place.
 
 ## License
 
