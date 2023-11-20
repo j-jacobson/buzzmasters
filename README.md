@@ -2,7 +2,7 @@
 
 ### Generate Buzz on reddit
 
-This is a Reddit bot that automatically posts and comments on Reddit using OpenAI's GPT-3 language model. The bot selects a random product and a random subreddit related to the product, then posts and comments in the subreddit.
+This is a Reddit bot that automatically posts and comments on Reddit using OpenAI's GPT-3 language model. The bot selects a random product and a random subreddit related to the product, then posts and comments in the subreddit. You can have any number of bots and the software will split the load between them. You can set the hourly or daily rate of posting, and modify the topics to be injected along with the targetted subreddits.
 
 ## NOTE: 
 
@@ -38,6 +38,10 @@ To run the bot, run the following command in your terminal:
 This runs ```python main.py```.
 
 The bots will run indefinetely, grabbing subreddits and products and posting and commenting about them.
+
+### Note:
+
+Do NOT do vote manipulation or you will be banned/shadowbanned on reddit. This means, do not use the bots to vote on the other bots posts. Reddit rule "all votes must be cast by humans" applies.
 
 ## Configuration
 
