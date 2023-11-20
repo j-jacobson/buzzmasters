@@ -25,6 +25,10 @@ To install the required Python packages, run the following command in your termi
 
 This runs ```pip install -r requirements.txt```.
 
+To set up the directory structure, run:
+
+```make new```
+
 ## Usage
 
 To run the bot, run the following command in your terminal:
