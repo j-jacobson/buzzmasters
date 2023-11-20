@@ -6,7 +6,7 @@ This is a Reddit bot that automatically posts and comments on Reddit using OpenA
 
 ## NOTE: 
 
-This code will not work OOTB anymore due to changes to reddit's API in April 2023. I am opening the repository because I do not want to fix it (was private before).
+This code will not work OOTB anymore due to changes to reddit's API in April 2023.
 
 ## Prerequisites
 
