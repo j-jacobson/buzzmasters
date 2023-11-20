@@ -54,11 +54,15 @@ To configure the bot, you can edit the variables in the `.env` file. The followi
 
 ## Contributing
 
-Please open an issue before opening a PR.
+Please open an issue before opening a PR. If you like this code, please leave a comment for star it. Thanks!
 
 ## Ethics
 
 Is running bots online ethical? I'm not sure, and suspect not. I never ran a full campaign using this code, it was just a proof of concept. Please think before using this code. Let's make the internet a better place.
+
+## Test Zone
+
+You can test on the subreddit /r/buzzmasters.
 
 ## License
 
