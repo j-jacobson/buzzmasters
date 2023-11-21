@@ -58,7 +58,7 @@ To configure the bot, you can edit the variables in the `.env` file. The followi
 
 ## Contributing
 
-Please open an issue before opening a PR. If you like this code, please leave a comment for star it. Thanks!
+Please open an issue before opening a PR. If you like this code, please leave a comment or star it. Thanks!
 
 ## Ethics
 
